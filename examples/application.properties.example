@@ -1,0 +1,47 @@
+# Example settings for plugin-jmsq.
+# Copy this file, fill in your own values, and keep the copy OUT of version control.
+# Every key is described in README.md, "Configuration".
+
+# ---------------------------------------------------------------------------
+# ActiveMQ Classic (AMQJMSConnection)
+# ---------------------------------------------------------------------------
+amq.host=localhost
+amq.port=61616
+# Required: producer flow-control window in bytes
+amq.producer-window=1048576
+amq.transacted=false
+amq.commit.records.count=2000
+amq.commit.interval=2
+amq.persist.enable=true
+amq.use.asyncsend=true
+amq.prefetch.size=1000
+amq.compress.msg.enable=false
+amq.tcp-buffer=20971520
+amq.statistics.timeout.ms=2000
+# Connector string: host, senderport, receiverport, user, password
+amq.connector.url=host=localhost&senderport=61616&receiverport=61616
+
+# Optional: JDBC target for AMQJMSConnection.logQConsumerCounter()
+#qmanager.db.driver=org.mariadb.jdbc.Driver
+#qmanager.db.url=jdbc:mariadb://localhost:3306/gateway?user=<user>&password=<password>
+
+# ---------------------------------------------------------------------------
+# RabbitMQ (RabbitJMSConnection) - uses amq.host / amq.port as fallbacks
+# ---------------------------------------------------------------------------
+amq.user=guest
+amq.password=guest
+# 1..255 to declare priority queues; 0 = ordinary queues
+rabbit.queue.max-priority=0
+rabbit.mq.connector=host=localhost&port=5672&uname=<user>&password=<password>
+
+# ---------------------------------------------------------------------------
+# Kafka (KafkaJMSConnection) - every kafka.* key is passed to the client
+# with the "kafka." prefix removed
+# ---------------------------------------------------------------------------
+kafka.bootstrap.servers=localhost:9092
+kafka.group.id=plugin-jmsq
+kafka.auto.offset.reset=earliest
+kafka.enable.auto.commit=true
+kafka.acks=all
+kafka.poll.timeout.ms=100
+kafka.send.timeout.ms=10000

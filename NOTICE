@@ -1,0 +1,19 @@
+plugin-jmsq
+Copyright 2024-2026 SKACT Tech
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The shaded jar (plugin-jmsq-<version>-shaded.jar) bundles third-party
+libraries, each under its own license; their LICENSE and NOTICE files are
+kept inside that jar under META-INF/. They include:
+
+  - Apache ActiveMQ client 5.16.7                 Apache License 2.0
+  - Apache Geronimo JMS 1.1 / J2EE management specs Apache License 2.0
+  - FuseSource HawtBuf 1.11                       Apache License 2.0
+  - Apache Kafka clients 3.5.1                    Apache License 2.0
+  - LZ4 Java 1.8.0                                Apache License 2.0
+  - Snappy Java 1.1.10.1                          Apache License 2.0
+  - zstd-jni 1.5.5-1                              BSD 2-Clause License
+  - Apache Log4j 2.17.2                           Apache License 2.0
+  - RabbitMQ Java client 5.15.0                   Apache License 2.0 / MPL 2.0 / GPL 2.0 (triple-licensed)
+  - SLF4J API 1.7.36                              MIT License

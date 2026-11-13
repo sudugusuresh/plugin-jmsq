@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Example Log4j 2 configuration for an application that uses plugin-jmsq.
+  The library ships no logging configuration; put a file like this on the
+  host application's classpath, or pass -Dlog4j.configurationFile=log4j2.xml.
+-->
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.plugin.jmsq" level="info" />
+		<Root level="warn">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

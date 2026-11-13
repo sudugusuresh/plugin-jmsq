@@ -1,0 +1,358 @@
+/*
+ * Copyright 2026 SKACT Tech
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.plugin.jmsq.util;
+
+import java.io.Serializable;
+
+/**
+ * Connection and tuning settings for one broker connection.
+ * <p>
+ * {@link com.plugin.jmsq.mq.AMQJMSConnection} fills this from its
+ * {@code amq.*} properties and reads it to configure the ActiveMQ connection
+ * factory, session, producer and consumer. Several fields (message counts,
+ * warm-up, throttle rate, drain queue) come from the original performance-test
+ * code this class was based on and are not used by the connectors.
+ */
+public class PerfParams implements Serializable {
+
+   private static final long serialVersionUID = -4336539641012356002L;
+
+   /** Number of messages a performance run sends. Not used by the connectors. */
+   private int noOfMessagesToSend = 1000;
+
+   /** Number of warm-up messages before a performance run. Not used by the connectors. */
+   private int noOfWarmupMessages;
+
+//   private int messageSize = 1024; // in bytes
+
+   /** Whether the queue is durable. */
+   private boolean durable = false;
+
+   /** Whether the JMS session is transacted; if so, sends and receives are committed in batches. */
+   private boolean isSessionTransacted = false;
+
+   /** Transaction batch size for performance runs. Not used by the connectors. */
+   private int batchSize = 5000;
+
+   /** Whether to empty the queue before a performance run. Not used by the connectors. */
+   private boolean drainQueue = true;
+
+   /** Name of the queue to produce to or consume from. */
+   private String queueName;
+
+   /** Broker address the queue is bound to; used as the destination for selector-based receives. */
+   private String address;
+
+   /** Maximum send rate for performance runs. Not used by the connectors. */
+   private int throttleRate;
+
+   /** Broker host name or IP address. */
+   private String host;
+
+   /** Broker port (sender port for producers, receiver port for consumers). */
+   private int port;
+
+   /** TCP socket buffer size in bytes; added to the connector URL when greater than 0. */
+   private int tcpBufferSize;
+
+   /** Whether to disable Nagle's algorithm on the socket. */
+   private boolean tcpNoDelay;
+
+   /** Whether messages are acknowledged before delivery. */
+   private boolean preAck;
+
+   /** Confirmation window size in bytes; {@code -1} disables it. */
+   private int confirmationWindow = -1;
+
+   /** Producer flow-control window in bytes. */
+   private int producerWindow;
+
+   /** Consumer flow-control window in bytes. */
+   private int consumerWindow;
+
+   /** If {@code true}, messages are sent with {@code DeliveryMode.PERSISTENT}; otherwise non-persistent. */
+   private boolean blockOnPersistent = true;
+
+   /** Whether sends block until the broker acknowledges them. */
+   private boolean blockOnACK = true;
+
+   /** Whether to use asynchronous send acknowledgements. */
+   private boolean useSendAcks;
+
+   /** Whether the producer sends asynchronously (ActiveMQ {@code useAsyncSend}). */
+   private boolean useAsyncSend;
+
+   /** Consumer queue prefetch size (number of messages buffered on the client). */
+   private int prefetchsize;
+
+   /** Whether message bodies are compressed (ActiveMQ {@code useCompression}). */
+   private boolean compressEnable;
+
+   public boolean isBlockOnPersistent()
+   {
+      return blockOnPersistent;
+   }
+
+   public void setBlockOnPersistent(final boolean blockOnPersistent)
+   {
+      this.blockOnPersistent = blockOnPersistent;
+   }
+
+   public boolean isBlockOnACK()
+   {
+      return blockOnACK;
+   }
+
+   public void setBlockOnACK(final boolean blockOnACK)
+   {
+      this.blockOnACK = blockOnACK;
+   }
+
+   public int getNoOfMessagesToSend()
+   {
+      return noOfMessagesToSend;
+   }
+
+   public void setNoOfMessagesToSend(final int noOfMessagesToSend)
+   {
+      this.noOfMessagesToSend = noOfMessagesToSend;
+   }
+
+   public int getNoOfWarmupMessages()
+   {
+      return noOfWarmupMessages;
+   }
+
+   public void setNoOfWarmupMessages(final int noOfWarmupMessages)
+   {
+      this.noOfWarmupMessages = noOfWarmupMessages;
+   }
+
+//   public int getMessageSize()
+//   {
+//      return messageSize;
+//   }
+//
+//   public void setMessageSize(final int messageSize)
+//   {
+//      this.messageSize = messageSize;
+//   }
+
+   public boolean isDurable()
+   {
+      return durable;
+   }
+
+   public void setDurable(final boolean durable)
+   {
+      this.durable = durable;
+   }
+
+   public boolean isSessionTransacted()
+   {
+      return isSessionTransacted;
+   }
+
+   public void setSessionTransacted(final boolean sessionTransacted)
+   {
+      isSessionTransacted = sessionTransacted;
+   }
+
+   public int getBatchSize()
+   {
+      return batchSize;
+   }
+
+   public void setBatchSize(final int batchSize)
+   {
+      this.batchSize = batchSize;
+   }
+
+   public boolean isDrainQueue()
+   {
+      return drainQueue;
+   }
+
+   public void setDrainQueue(final boolean drainQueue)
+   {
+      this.drainQueue = drainQueue;
+   }
+
+   public String getQueueName()
+   {
+      return queueName;
+   }
+
+   public void setQueueName(final String queueName)
+   {
+      this.queueName = queueName;
+   }
+
+   public String getAddress()
+   {
+      return address;
+   }
+
+   public void setAddress(final String address)
+   {
+      this.address = address;
+   }
+
+   public int getThrottleRate()
+   {
+      return throttleRate;
+   }
+
+   public void setThrottleRate(final int throttleRate)
+   {
+      this.throttleRate = throttleRate;
+   }
+
+   @Override
+   public String toString()
+   {
+      return "message to send = " + noOfMessagesToSend +
+             ", Durable = " +
+             durable +
+             ", session transacted = " +
+             isSessionTransacted +
+             (isSessionTransacted ? ", transaction batch size = " + batchSize : "") +
+             ", drain queue = " +
+             drainQueue +
+             ", queue name = " +
+             queueName +
+             ", Throttle rate = " +
+             throttleRate +
+             ", blockOnPersistent = " +
+             blockOnPersistent +
+             ". blockOnACK = " +
+             blockOnACK;
+   }
+
+   public synchronized String getHost()
+   {
+      return host;
+   }
+
+   public synchronized void setHost(final String host)
+   {
+      this.host = host;
+   }
+
+   public synchronized int getPort()
+   {
+      return port;
+   }
+
+   public synchronized void setPort(final int port)
+   {
+      this.port = port;
+   }
+
+   public synchronized int getTcpBufferSize()
+   {
+      return tcpBufferSize;
+   }
+
+   public synchronized void setTcpBufferSize(final int tcpBufferSize)
+   {
+      this.tcpBufferSize = tcpBufferSize;
+   }
+
+   public synchronized boolean isTcpNoDelay()
+   {
+      return tcpNoDelay;
+   }
+
+   public synchronized void setTcpNoDelay(final boolean tcpNoDelay)
+   {
+      this.tcpNoDelay = tcpNoDelay;
+   }
+
+   public synchronized boolean isPreAck()
+   {
+      return preAck;
+   }
+
+   public synchronized void setPreAck(final boolean preAck)
+   {
+      this.preAck = preAck;
+   }
+
+   public synchronized int getConfirmationWindow()
+   {
+      return confirmationWindow;
+   }
+
+   public synchronized void setConfirmationWindow(final int confirmationWindow)
+   {
+      this.confirmationWindow = confirmationWindow;
+   }
+
+   public int getProducerWindow()
+   {
+      return producerWindow;
+   }
+
+   public void setProducerWindow(final int producerWindow)
+   {
+      this.producerWindow = producerWindow;
+   }
+
+   public int getConsumerWindow()
+   {
+      return consumerWindow;
+   }
+
+   public void setConsumerWindow(final int consumerWindow)
+   {
+      this.consumerWindow = consumerWindow;
+   }
+
+   public boolean isUseSendAcks()
+   {
+      return useSendAcks;
+   }
+
+   public void setUseSendAcks(boolean useSendAcks)
+   {
+      this.useSendAcks = useSendAcks;
+   }
+
+    public boolean isUseAsyncSend() {
+        return useAsyncSend;
+    }
+
+    public void setUseAsyncSend(boolean useAsyncSend) {
+        this.useAsyncSend = useAsyncSend;
+    }
+
+    public int getPrefetchsize() {
+        return prefetchsize;
+    }
+
+    public void setPrefetchsize(int prefetchsize) {
+        this.prefetchsize = prefetchsize;
+    }
+
+    public boolean isCompressEnable() {
+        return compressEnable;
+    }
+
+    public void setCompressEnable(boolean compressEnable) {
+        this.compressEnable = compressEnable;
+    }
+}

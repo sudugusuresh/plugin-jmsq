@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    ignore:
+      # Later lines need Java 11+ or move to jakarta.jms; upgrade deliberately, not automatically.
+      - dependency-name: org.apache.activemq:activemq-client
+        versions: ['>= 5.17']
+      - dependency-name: org.apache.kafka:kafka-clients
+        versions: ['>= 4.0']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

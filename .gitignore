@@ -1,0 +1,31 @@
+# Build output
+/target/
+dependency-reduced-pom.xml
+
+# Maven wrapper downloads (the wrapper jar itself is committed)
+.mvn/wrapper/maven-wrapper.jar.tmp
+.mvn/timing.properties
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets - never commit these
+*.local.properties
+application.properties
+!examples/application.properties.example
+*.env
+*.pem
+*.key
+*.jks
+*.p12

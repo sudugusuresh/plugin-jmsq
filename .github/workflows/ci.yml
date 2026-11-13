@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (JDK ${{ matrix.java }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['8', '11', '17', '21']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Build and test
+        run: ./mvnw -B -ntp verify
+
+      - name: Check Javadoc
+        if: matrix.java == '17'
+        run: ./mvnw -B -ntp javadoc:javadoc
+
+      - name: Upload shaded jar
+        if: matrix.java == '11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-jmsq-shaded
+          path: target/plugin-jmsq-*-shaded.jar
+          if-no-files-found: error
